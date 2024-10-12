@@ -1,0 +1,2 @@
+we are going to use 
+#npm i react-instantsearch for filtering of list
