@@ -34,6 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 				if (!User) {
 					throw new Error("incorrect email or password");
 				}
+
 				if (!User.password) {
 					throw new Error("incorrect email or password");
 				}
@@ -57,6 +58,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 		}),
 	],
 	pages: {
-		signIn: "/sign-in",
+		signIn: "/login",
 	},
 });

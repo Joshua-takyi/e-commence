@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Login } from "../action";
 // import { AddUser } from "../action";
 
-export default function Component() {
+export default function SignIn() {
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
 			<div className="w-full max-w-md bg-white rounded-lg shadow-md p-6 space-y-6">

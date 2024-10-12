@@ -11,57 +11,46 @@ const AddUser = async (formData) => {
 	if (!name || !email || !password) {
 		throw new Error("Missing required fields");
 	}
-	try {
-		await connectDb();
+	await connectDb();
 
-		// find existingUser
-
-		const existingUser = await UserData.findOne({ email }).select(
-			"+password +role"
-		);
-		const hashedPassword = await bcrypt.hash(password, 12);
-		if (existingUser) {
-			console.log("User already exists");
-		}
-		await UserData.create({
-			name,
-			email,
-			password: hashedPassword,
-		});
-		return {
-			success: true,
-			message: "User created successfully",
-		};
-	} catch (error) {
-		console.log("failed to create user", error.message);
+	// find existingUser
+	const existingUser = await UserData.findOne({ email });
+	const hashedPassword = await bcrypt.hash(password, 12);
+	if (existingUser) {
+		console.log("User already exists");
 		return {
 			success: false,
-			message: error.message,
+			message: "User already exists",
 		};
 	}
-	// redirect("/sign-in");
+	await UserData.create({
+		name,
+		email,
+		password: hashedPassword,
+	});
+	// ! why dafuq is the redirecting not working 💀
+	redirect("/login");
 };
-
 const Login = async (formData) => {
 	const email = formData.get("email");
 	const password = formData.get("password");
-	try {
-		await signIn("credentials", {
-			redirect: false,
-			callbackUrl: "/",
-			email,
-			password,
-		});
+
+	const result = await signIn("credentials", {
+		redirect: false,
+		callbackUrl: "/",
+		email,
+		password,
+	});
+	if (result.error) {
+		console.log("Login failed:", result.error);
 		return {
-			success: true,
-			message: "User logged in successfully",
+			success: false,
+			message: "Login failed",
 		};
-	} catch (error) {
-		const errorMessage = "failed to login";
-		console.log(errorMessage, error);
 	}
-	redirect("/product-listed");
+
+	//? redirect after a successful signIn
+	return redirect("/product-listed"); // Ensure to return the redirect
 };
-// redirect("/product-listed")
 
 export { AddUser, Login };

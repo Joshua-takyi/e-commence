@@ -1,7 +1,7 @@
-export default function Products() {
+export default function AddProduct() {
 	return (
 		<div className="container mx-auto">
-			<h1>Products</h1>
+			<h1>Add Product</h1>
 		</div>
 	);
 }
